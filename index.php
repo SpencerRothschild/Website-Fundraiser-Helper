@@ -3,14 +3,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Untitled Document</title>
+        <title>It's All About The Children Fundraiser Management</title>
         <?php require_once( 'conn.php' ); ?>
     </head>
     <body>
         <h4>Add An Event</h4>
         <form action="add.php" method="post">
             <input type="hidden" name="action" value="newevent" />
-            Event Name: <input type="text" name="name" required/> <br />
+            Event Name: <input type="text" name="name" required /> <br />
             Event Description: <input type="text" name="desc" /> <br />
             <input type="submit" />
         </form>
@@ -22,39 +22,40 @@
         if ($rows == 0)
             echo 'No events currently entered. <br />';
         else {
-            echo '<div>';
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($results as $row) {
                 $events[$row['id']] = $row['name'];
-                echo 'Name: ';
-                echo $row['name'];
-                echo '<br />';
-                echo 'Description: ';
-                echo $row['description'];
-                echo '<br />';
-                $stmt = $db->query("SELECT id, name, value FROM " . $bid_card_table . " WHERE event = " . $row['id']);
+                echo '<table border="1" cellspacing="2" cellpadding="2" style="padding:5px">';
+                echo '<tr><td>Event Name</td><td>Event Description</td></tr>';
+                echo '<tr>';
+                echo '<td>' . $row['name'] . '</td>';
+                echo '<td>' . $row['description'] . '</td>';
+                
+                echo '</tr>';
+                $stmt = $db->query("SELECT id, name, value, startprice, buyout, increment, donorname, buyername FROM " . $bid_card_table . " WHERE event = " . $row['id']);
                 $rows = $stmt->rowCount();
                 if ($rows == 0)
                     echo 'No bid items currently created.<br />';
                 else {
-                    echo '<div>';
-                    echo 'Bid cards: <br />';
+                    echo '<tr><td colspan="10">Bid Cards</td></tr>';
+                    echo '<tr><td>Name</td><td>Value</td><td>Start Price</td><td>Buyout</td><td>Increment</td><td>Donor Name</td><td>Buyer Name</td><td></td></tr>';
+                    
                     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($items as $item) {
-                        echo 'Name: ';
-                        echo $item['name'];
-                        echo '<br />';
-                        echo 'Value ';
-                        echo $item['value'];
-                        echo '<br />';
-                        echo '<a href="process.php?item=' . $item['id'] . '">Download Word documents for this item</a>';
-                        echo '<br />';
+                        echo '<tr>';
+                        echo '<td>' . $item['name'] . '</td>';
+                        echo '<td>' . $item['value'] . '</td>';
+                        echo '<td>' . $item['startprice'] . '</td>';
+                        echo '<td>' . $item['buyout'] . '</td>';
+                        echo '<td>' . $item['increment'] . '</td>';
+                        echo '<td>' . $item['donorname'] . '</td>';
+                        echo '<td>' . $item['buyername'] . '</td>';
+                        echo '<td><a href="process.php?item=' . $item['id'] . '">Download Word documents for this item</a></td>';
+                        echo '</tr>';
                     }
-                    echo '<br />';
                 }
-                echo '<br />';
+                echo '</table>';
             }
-            echo '</div>';
         }
         if ( count($events) ) {
         ?>

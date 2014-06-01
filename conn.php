@@ -8,8 +8,8 @@ $db->exec("use iaatk");
 
 $events_table = 'iaatk_events';
 $bid_card_table = 'iaatk_bid_items';
-//$db->exec("DROP TABLE IF EXISTS " . $events_table );
 //$db->exec("DROP TABLE IF EXISTS " . $bid_card_table );
+//$db->exec("DROP TABLE IF EXISTS " . $events_table );
 $sql = "CREATE TABLE IF NOT EXISTS " . $events_table . " ("
         . "id           INT     AUTO_INCREMENT  NOT NULL,"
         . "name         TEXT    NOT NULL,"
