@@ -60,7 +60,7 @@
                             <a href="#" onclick="toggleVisibility('additem');">Click to add bid item</a>
                             <div id="additem" style="display: none;">   
                             <form action="add.php" method="post">
-                                <input type="hidden" name="event" value="<?php echo $event['id']; ?>" />
+                                <input type="hidden" name="event" value="<?php echo $event[0]['id']; ?>" />
                                 <input type="hidden" name="action" value="newitem" />
                                 Name: <input type="text" name="name" required /> <br />
                                 Description: <input type="text" name="description" /> <br />
