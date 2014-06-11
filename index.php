@@ -10,6 +10,8 @@
             table {border-collapse: collapse;}
             table tr{border:1px solid}
             table tr td{border:1px solid; padding: 2px}
+            body{background-color: crimson;
+            color: lightpink}
         </style>
         <?php require_once( 'conn.php' ); ?>
     </head>
@@ -17,7 +19,11 @@
         <div>
             <div style="width:90%; margin:0 auto">
                 <div style="text-align:center">
-                    Fundraiser Management
+                    <font size = "6"> Fundraiser Management </font> <br><br>
+                    <img src="images/boy.jpg" title="cartoon boy" />
+                    <img src="images/girl.jpg" title="cartoon girl" />
+                    <br><br>
+
                 </div>
                 <div style="width:15%; float:left; border: 1px solid; padding:5px">
                     <a href="#" onclick="toggleVisibility('addevent');">Click to add event</a>
