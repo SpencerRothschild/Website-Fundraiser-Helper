@@ -32,7 +32,10 @@ if (isset($_GET['action'])) {
         $objPHPExcel->getActiveSheet()->SetCellValue('I' . $rowIndex, 'Personal Message for Donor');
         $objPHPExcel->getActiveSheet()->SetCellValue('J' . $rowIndex, 'Buyer Name');        
         $objPHPExcel->getActiveSheet()->SetCellValue('K' . $rowIndex, 'Personal Message for Buyer');
-        
+        foreach(range('A','K') as $columnID) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
+                ->setAutoSize(true);
+        }
         $stmt = $db->prepare('SELECT * FROM ' . $bid_card_table . ' WHERE event = ?');
         $stmt->execute(array($event));
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,10 +54,7 @@ if (isset($_GET['action'])) {
             $objPHPExcel->getActiveSheet()->SetCellValue('K' . $rowIndex, $row['buyermessage']);
             $rowIndex++;
         }
-        foreach(range('A','K') as $columnID) {
-            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-                ->setAutoSize(true);
-        }
+        
         $objPHPExcel->getActiveSheet()->mergeCells('A1:K1');
         $objPHPExcel->getActiveSheet()->mergeCells('A2:K2');
         $objPHPExcel->getActiveSheet()->mergeCells('A3:K3');
@@ -125,7 +125,7 @@ if (isset($_GET['action'])) {
             $files[] = 'files/card.docx';
         }
         /** Generate bid item donor letter * */
-        if ($result['name'] !== '' && $result['donorname'] !== '') {
+        if ($result['name'] !== '' && $result['donorname'] !== '' && $result['value'] !== '') {
             $PHPWord = new PHPWord();
 
             $template = $PHPWord->loadTemplate('templates/donor_letter.docx');
@@ -136,7 +136,11 @@ if (isset($_GET['action'])) {
             $template->setValue('date', $date);
 
             $template->setValue('event', $eventResult['name']);
-
+            $template->setValue('value', $result['value']);
+            if ($result['donormessage'] !== '')
+                $template->setValue('message', "<w:br/>" . $result['donormessage'] . "<w:br/>");
+            else
+                $template->setValue('message', "");
             $template->save('files/donor_letter.docx');
             $files[] = 'files/donor_letter.docx';
         }
@@ -152,7 +156,10 @@ if (isset($_GET['action'])) {
             $template->setValue('date', $date);
 
             $template->setValue('event', $eventResult['name']);
-
+            if ($result['buyermessage'] !== '')
+                $template->setValue('message', "<w:br/>" . $result['buyermessage'] . "<w:br/>");
+            else
+                $template->setValue('message', "");
             $template->save('files/purchase_letter.docx');
             $files[] = 'files/purchase_letter.docx';
         }

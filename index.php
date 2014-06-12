@@ -77,21 +77,22 @@
                     <h4>Current Events:</h4>
                     <?php
                         $events = array();
-                        $stmt = $db->query("SELECT id, name, date FROM " . $events_table);
+                        $stmt = $db->query("SELECT id, name, date FROM " . $events_table . " ORDER BY date DESC");
                         $event_rows = $stmt->rowCount();
                         if ($event_rows == 0)
                             echo 'No events currently entered. <br />';
                         else {
                             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($results as $row) {
-                                echo "<a href='index.php?event=" . $row['id'] . "'>" . $row['name'] . " on " . date('F j, Y', strtotime($row['date'])) . "</a><br />";
+                                $date = new DateTime($row['date']);                        
+                                echo "<a href='index.php?event=" . $row['id'] . "'>" . $row['name'] . " on " . $date->format('F j, Y') . "</a><br />";
                             }
                         }
                     ?>
                 </div>
                 <div class="rightpanel">
                     <?php
-                        if (isset($_GET['event'])) {
+                        if (isset($_GET['event'])) {                              
                             $stmt = $db->prepare("SELECT id, name, description, location, date FROM " . $events_table . " WHERE id = ?");
                             $stmt->execute(array($_GET['event']));
                             $specific_event_rows = $stmt->rowCount();
