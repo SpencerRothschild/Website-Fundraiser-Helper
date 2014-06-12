@@ -17,11 +17,11 @@ if (isset($_POST['action'])) {
             $name = $_POST['name'];
             $event = $_POST['event'];
             $stmt = $db->prepare('INSERT INTO ' . $bid_card_table . ' '
-                    . '(event, name, description, value, buyout, startprice, increment, boughtprice, donorname, buyername, message)'
-                    . ' VALUES (?,?,?,?,?,?,?,?,?,?,?) ');
+                    . '(event, name, description, value, buyout, startprice, increment, boughtprice, donorname, buyername, donormessage, buyermessage)'
+                    . ' VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ');
             $stmt->execute(array($event, $name, $_POST['description'], $_POST['value'], 
                                 $_POST['buyout'], $_POST['start'], $_POST['inc'], $_POST['boughtprice'], 
-                                $_POST['donorname'], $_POST['buyername'], $_POST['message']));
+                                $_POST['donorname'], $_POST['buyername'], $_POST['donormessage'], $_POST['buyermessage']));
             $header .= '?event=' . $_POST['event'];
         }
     }
