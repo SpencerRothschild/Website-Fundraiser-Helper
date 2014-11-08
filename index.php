@@ -119,7 +119,7 @@
                             <form action="add.php" method="post">
                                 <input type="hidden" name="event" value="<?php echo $row['id']; ?>" />
                                 <input type="hidden" name="action" value="newitem" />
-                                <table style=""widthLauto">
+                                <table style="width:auto;">
                                     <tr><td>Name</td><td>Description</td><td>Value</td><td>Start Price</td><td>Buyout</td><td>Increment</td><td>Bought Price</td><td>Donor Name</td><td>Buyer Name</td></tr>
                                     <tr>
                                         <td><input type="text" name="name" required /></td>
